@@ -5,7 +5,6 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 
 import '../helpers/helper.dart';
-import '../models/favorite.dart';
 import '../models/product.dart';
 import '../models/user.dart';
 import '../repository/user_repository.dart' as userRepo;
@@ -41,20 +40,6 @@ Future<Stream<Product>> getProductsByCategory(categoryId) async {
   return streamedRest.stream.transform(utf8.decoder).transform(json.decoder).map((data) => Helper.getData(data)).expand((data) => (data as List)).map((data) {
     return Product.fromJSON(data);
   });
-}
-
-Future<Stream<Favorite>> isFavoriteProduct(String productId) async {
-  User _user = userRepo.currentUser.value;
-  if (_user.apiToken == null) {
-    return Stream.value(new Favorite());
-  }
-  final String _apiToken = 'api_token=${_user.apiToken}&';
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}favorites/exist?${_apiToken}product_id=$productId&user_id=${_user.id}';
-
-  final client = new http.Client();
-  final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
-
-  return streamedRest.stream.transform(utf8.decoder).transform(json.decoder).map((data) => Helper.getObjectData(data)).map((data) => Favorite.fromJSON(data));
 }
 
 Future<Stream<Product>> getProductsOfMarket(String marketId) async {

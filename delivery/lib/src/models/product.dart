@@ -1,4 +1,3 @@
-import '../models/category.dart';
 import '../models/market.dart';
 import '../models/media.dart';
 import '../models/option.dart';
@@ -19,7 +18,6 @@ class Product {
   bool featured;
   bool deliverable;
   Market market;
-  Category category;
   List<Option> options;
   List<OptionGroup> optionGroups;
   List<Review> productReviews;
@@ -45,7 +43,6 @@ class Product {
       featured = jsonMap['featured'] ?? false;
       deliverable = jsonMap['deliverable'] ?? false;
       market = jsonMap['market'] != null ? Market.fromJSON(jsonMap['market']) : new Market();
-      category = jsonMap['category'] != null ? Category.fromJSON(jsonMap['category']) : new Category();
       image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0 ? Media.fromJSON(jsonMap['media'][0]) : new Media();
       options = jsonMap['options'] != null && (jsonMap['options'] as List).length > 0 ? List.from(jsonMap['options']).map((element) => Option.fromJSON(element)).toList() : [];
       optionGroups = jsonMap['option_groups'] != null && (jsonMap['option_groups'] as List).length > 0
@@ -66,7 +63,6 @@ class Product {
       featured = false;
       deliverable = false;
       market = new Market();
-      category = new Category();
       image = new Media();
       options = [];
       optionGroups = [];
