@@ -16,36 +16,6 @@ import '../models/setting.dart';
 ValueNotifier<Setting> setting = new ValueNotifier(new Setting());
 ValueNotifier<Address> myAddress = new ValueNotifier(new Address());
 final navigatorKey = GlobalKey<NavigatorState>();
-//LocationData locationData;
-
-// Future<Setting> initSettings() async {
-//   Setting _setting;
-//   final String url = '${GlobalConfiguration().getValue('api_base_url')}settings';
-//   print(url);
-//   try {
-//     final response = await http.get(url, headers: {HttpHeaders.contentTypeHeader: 'application/json'});
-//     if (response.statusCode == 200 && response.headers.containsValue('application/json')) {
-//       if (json.decode(response.body)['data'] != null) {
-//         SharedPreferences prefs = await SharedPreferences.getInstance();
-//         await prefs.setString('settings', json.encode(json.decode(response.body)['data']));
-//         _setting = Setting.fromJSON(json.decode(response.body)['data']);
-//         if (prefs.containsKey('language')) {
-//           _setting.mobileLanguage.value = Locale(prefs.get('language'), '');
-//         }
-//         _setting.brightness.value = prefs.getBool('isDark') ?? false ? Brightness.dark : Brightness.light;
-//         setting.value = _setting;
-//         // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-//         setting.notifyListeners();
-//       }
-//     } else {
-//       print(CustomTrace(StackTrace.current, message: response.body).toString());
-//     }
-//   } catch (e) {
-//     print(CustomTrace(StackTrace.current, message: url).toString());
-//     return Setting.fromJSON({});
-//   }
-//   return setting.value;
-// }
 
 Future<Setting> initSettings() async {
   Setting _setting;

@@ -56,33 +56,6 @@ class ProductController extends ControllerMVC {
     return true;
   }
 
-  void addToFavorite(Product product) async {
-    var _favorite = new Favorite();
-    _favorite.product = product;
-    _favorite.options = product.options.where((Option _option) {
-      return _option.checked;
-    }).toList();
-    addFavorite(_favorite).then((value) {
-      setState(() {
-        this.favorite = value;
-      });
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).thisProductWasAddedToFavorite),
-      ));
-    });
-  }
-
-  void removeFromFavorite(Favorite _favorite) async {
-    removeFavorite(_favorite).then((value) {
-      setState(() {
-        this.favorite = new Favorite();
-      });
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(scaffoldKey?.currentContext).thisProductWasRemovedFromFavorites),
-      ));
-    });
-  }
-
   Future<void> refreshProduct() async {
     var _id = product.id;
     product = new Product();

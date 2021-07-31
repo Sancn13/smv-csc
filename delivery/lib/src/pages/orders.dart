@@ -6,7 +6,6 @@ import '../../generated/l10n.dart';
 import '../controllers/order_controller.dart';
 import '../elements/EmptyOrdersWidget.dart';
 import '../elements/OrderItemWidget.dart';
-import '../elements/ShoppingCartButtonWidget.dart';
 
 class OrdersWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> parentScaffoldKey;
@@ -47,9 +46,6 @@ class _OrdersWidgetState extends StateMVC<OrdersWidget> {
           S.of(context).orders,
           style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
         ),
-        actions: <Widget>[
-          new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
-        ],
       ),
       body: RefreshIndicator(
         onRefresh: _con.refreshOrders,

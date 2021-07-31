@@ -69,19 +69,6 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                 ),
                 ListTile(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/Notifications');
-                  },
-                  leading: Icon(
-                    Icons.notifications,
-                    color: Theme.of(context).focusColor.withOpacity(1),
-                  ),
-                  title: Text(
-                    S.of(context).notifications,
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
                     Navigator.of(context).pushNamed('/Pages', arguments: 2);
                   },
                   leading: Icon(
@@ -102,19 +89,6 @@ class _DrawerWidgetState extends StateMVC<DrawerWidget> {
                   trailing: Icon(
                     Icons.remove,
                     color: Theme.of(context).focusColor.withOpacity(0.3),
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/Help');
-                  },
-                  leading: Icon(
-                    Icons.help,
-                    color: Theme.of(context).focusColor.withOpacity(1),
-                  ),
-                  title: Text(
-                    S.of(context).help__support,
-                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
                 ListTile(

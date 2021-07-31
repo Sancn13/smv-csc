@@ -10,7 +10,6 @@ import '../controllers/order_details_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
 import '../elements/DrawerWidget.dart';
 import '../elements/ProductOrderItemWidget.dart';
-import '../elements/ShoppingCartButtonWidget.dart';
 import '../helpers/helper.dart';
 import '../models/route_argument.dart';
 
@@ -197,9 +196,6 @@ class _OrderWidgetState extends StateMVC<OrderWidget> with SingleTickerProviderS
                   S.of(context).order_details,
                   style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
                 ),
-                actions: <Widget>[
-                  new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
-                ],
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 expandedHeight: 230,
                 elevation: 0,
