@@ -25,6 +25,7 @@ class Product {
   Product();
 
   Product.fromJSON(Map<String, dynamic> jsonMap) {
+    print(jsonMap);
     try {
       id = jsonMap['id'].toString();
       name = jsonMap['name'];
@@ -42,6 +43,7 @@ class Product {
       packageItemsCount = jsonMap['package_items_count'].toString();
       featured = jsonMap['featured'] ?? false;
       deliverable = jsonMap['deliverable'] ?? false;
+      market = Market.fromJSON(jsonMap['market']);
       image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0 ? Media.fromJSON(jsonMap['media'][0]) : new Media();
       options = jsonMap['options'] != null && (jsonMap['options'] as List).length > 0 ? List.from(jsonMap['options']).map((element) => Option.fromJSON(element)).toList() : [];
       optionGroups = jsonMap['option_groups'] != null && (jsonMap['option_groups'] as List).length > 0

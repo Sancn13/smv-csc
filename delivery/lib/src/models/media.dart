@@ -9,9 +9,9 @@ class Media {
   String size;
 
   Media() {
-    url = "${GlobalConfiguration().getValue('base_url')}images/image_default.png";
-    thumb = "${GlobalConfiguration().getValue('base_url')}images/image_default.png";
-    icon = "${GlobalConfiguration().getValue('base_url')}images/image_default.png";
+    url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwTqn1ODDo1F9mufocVIyn3DNn-omZzTMkohqz-0L2nPL9OvBv8mmjVMPPxoorC40SDgA&usqp=CAU";
+    thumb = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwTqn1ODDo1F9mufocVIyn3DNn-omZzTMkohqz-0L2nPL9OvBv8mmjVMPPxoorC40SDgA&usqp=CAU";
+    icon = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwTqn1ODDo1F9mufocVIyn3DNn-omZzTMkohqz-0L2nPL9OvBv8mmjVMPPxoorC40SDgA&usqp=CAU";
   }
 
   Media.fromJSON(Map<String, dynamic> jsonMap) {
@@ -23,9 +23,9 @@ class Media {
       icon = jsonMap['icon'];
       size = jsonMap['formated_size'];
     } catch (e) {
-      url = "${GlobalConfiguration().getValue('base_url')}images/image_default.png";
-      thumb = "${GlobalConfiguration().getValue('base_url')}images/image_default.png";
-      icon = "${GlobalConfiguration().getValue('base_url')}images/image_default.png";
+      url = "https://image.flaticon.com/icons/png/512/1548/1548682.png";
+      thumb = "https://image.flaticon.com/icons/png/512/1548/1548682.png";
+      icon = "https://image.flaticon.com/icons/png/512/1548/1548682.png";
       print(e);
     }
   }

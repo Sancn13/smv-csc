@@ -157,7 +157,7 @@ Future<Order> deliveredOrder(Order order) async {
     return new Order();
   }
   print(order.deliveredMap());
-  final String url = 'http://192.168.56.1/cscmultishop/api/ordersMobile/' + order.id;
+  final String url = '${GlobalConfiguration().getValue('api_base_url')}ordersMobile/' + order.id;
   final client = new http.Client();
   final response = await client.put(
     url,

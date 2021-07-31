@@ -23,6 +23,7 @@ class Market {
   Market();
 
   Market.fromJSON(Map<String, dynamic> jsonMap) {
+    print(jsonMap);
     try {
       id = jsonMap['id'].toString();
       name = jsonMap['name'];

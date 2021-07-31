@@ -40,15 +40,6 @@ class ProductController extends ControllerMVC {
     });
   }
 
-  void listenForFavorite({String productId}) async {
-    final Stream<Favorite> stream = await isFavoriteProduct(productId);
-    stream.listen((Favorite _favorite) {
-      setState(() => favorite = _favorite);
-    }, onError: (a) {
-      print(a);
-    });
-  }
-
   bool isSameMarkets(Product product) {
     if (cart != null) {
       return cart.product?.market?.id == product.market.id;
@@ -59,7 +50,6 @@ class ProductController extends ControllerMVC {
   Future<void> refreshProduct() async {
     var _id = product.id;
     product = new Product();
-    listenForFavorite(productId: _id);
     listenForProduct(productId: _id, message: S.of(scaffoldKey?.currentContext).productRefreshedSuccessfully);
   }
 
