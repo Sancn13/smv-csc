@@ -16,7 +16,7 @@ import '../repository/user_repository.dart' as userRepo;
 ValueNotifier<User> currentUser = new ValueNotifier(User());
 
 Future<User> login(User user) async {
-  final String csc_url = 'http://192.168.56.1/cscmultishop/api/';
+  final String csc_url = '${GlobalConfiguration().getValue('api_base_url')}';
   final client = new http.Client();
   final resAuth = await client.post(
     csc_url + 'AuthTokensApiMobile',
@@ -90,7 +90,7 @@ Future<CreditCard> getCreditCard() async {
 }
 
 Future<User> update(User user) async {
-  final String csc_url = 'http://192.168.56.1/cscmultiShop/api/';
+  final String csc_url = '${GlobalConfiguration().getValue('api_base_url')}';
   final client = new http.Client();
   final response = await client.put(
     csc_url + "usersMobile/" + user.id,
