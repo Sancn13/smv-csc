@@ -50,6 +50,8 @@ Future<Stream<Order>> getNearOrders(Address myAddress, Address areaAddress) asyn
   _queryParams['sortedBy'] = 'desc';
   uri = uri.replace(queryParameters: _queryParams);
 
+  print(uri);
+
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));

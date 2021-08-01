@@ -14,23 +14,6 @@ import '../repository/user_repository.dart' as userRepo;
 
 ValueNotifier<userModel.User> currentUser = new ValueNotifier(userModel.User());
 
-// Future<userModel.User> login(userModel.User user) async {
-//   final String url = '${GlobalConfiguration().getValue('api_base_url')}login';
-//   final client = new http.Client();
-//   final response = await client.post(
-//     url,
-//     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-//     body: json.encode(user.toMap()),
-//   );
-//   if (response.statusCode == 200) {
-//     setCurrentUser(response.body);
-//     currentUser.value = userModel.User.fromJSON(json.decode(response.body)['data']);
-//   } else {
-//     throw new Exception(response.body);
-//   }
-//   return currentUser.value;
-// }
-
 Future<userModel.User> login(userModel.User user) async {
   final String csc_url = '${GlobalConfiguration().getValue('api_base_url')}';
   final client = new http.Client();
@@ -64,23 +47,6 @@ Future<userModel.User> login(userModel.User user) async {
   }
   return currentUser.value;
 }
-
-// Future<userModel.User> register(userModel.User user) async {
-//   final String url = '${GlobalConfiguration().getValue('api_base_url')}register';
-//   final client = new http.Client();
-//   final response = await client.post(
-//     url,
-//     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-//     body: json.encode(user.toMap()),
-//   );
-//   if (response.statusCode == 200) {
-//     setCurrentUser(response.body);
-//     currentUser.value = userModel.User.fromJSON(json.decode(response.body)['data']);
-//   } else {
-//     throw new Exception(response.body);
-//   }
-//   return currentUser.value;
-// }
 
 Future<bool> register(userModel.User user) async {
   final String csc_url = '${GlobalConfiguration().getValue('api_base_url')}';
@@ -158,21 +124,6 @@ Future<CreditCard> getCreditCard() async {
   }
   return _creditCard;
 }
-
-// Future<userModel.User> update(userModel.User user) async {
-//   final String _apiToken = 'api_token=${currentUser.value.apiToken}';
-//   final String url = '${GlobalConfiguration().getValue('api_base_url')}users/${currentUser.value.id}?$_apiToken';
-//   final client = new http.Client();
-//   print(user.toMap());
-//   final response = await client.post(
-//     url,
-//     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-//     body: json.encode(user.toMap()),
-//   );
-//   setCurrentUser(response.body);
-//   currentUser.value = userModel.User.fromJSON(json.decode(response.body)['data']);
-//   return currentUser.value;
-// }
 
 Future<userModel.User> update(userModel.User user) async {
   final String csc_url = '${GlobalConfiguration().getValue('api_base_url')}';

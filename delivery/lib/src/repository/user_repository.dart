@@ -148,55 +148,34 @@ Future<Stream<Address>> getAddresses() async {
 
 Future<Address> addAddress(Address address) async {
   User _user = userRepo.currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}';
   address.userId = _user.id;
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses?$_apiToken';
+  final String url = '${GlobalConfiguration().getValue('api_base_url')}AddressMobile';
   final client = new http.Client();
-  try {
-    final response = await client.post(
-      url,
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-      body: json.encode(address.toMap()),
-    );
-    return Address.fromJSON(json.decode(response.body)['data']);
-  } catch (e) {
-    print(CustomTrace(StackTrace.current, message: url));
-    return new Address.fromJSON({});
-  }
+  final response = await client.post(
+    url,
+    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    body: json.encode(address.toMap()),
+  );
+  return Address.fromJSON(json.decode(response.body)['data']);
 }
 
 Future<Address> updateAddress(Address address) async {
   User _user = userRepo.currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}';
   address.userId = _user.id;
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses/${address.id}?$_apiToken';
+  final String url = '${GlobalConfiguration().getValue('api_base_url')}addressMobile/' + address.id.toString();
   final client = new http.Client();
-  try {
-    final response = await client.put(
-      url,
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-      body: json.encode(address.toMap()),
-    );
-    return Address.fromJSON(json.decode(response.body)['data']);
-  } catch (e) {
-    print(CustomTrace(StackTrace.current, message: url));
-    return new Address.fromJSON({});
-  }
+  final response = await client.put(
+    url,
+    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+    body: json.encode(address.toMap()),
+  );
+  return Address.fromJSON(json.decode(response.body)['data']);
 }
 
 Future<Address> removeDeliveryAddress(Address address) async {
   User _user = userRepo.currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}';
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses/${address.id}?$_apiToken';
+  final String url = '${GlobalConfiguration().getValue('api_base_url')}AddressMobile/' + address.id;
   final client = new http.Client();
-  try {
-    final response = await client.delete(
-      url,
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    );
-    return Address.fromJSON(json.decode(response.body)['data']);
-  } catch (e) {
-    print(CustomTrace(StackTrace.current, message: url));
-    return new Address.fromJSON({});
-  }
+  final response = await client.delete(url);
+  return Address.fromJSON(json.decode(response.body)['data']);
 }
