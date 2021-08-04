@@ -22,7 +22,6 @@ Future<Stream<Order>> getOrders() async {
   _queryParams['user_id'] = _user.id;
   _queryParams['filter'] = 'delivery';
   uri = uri.replace(queryParameters: _queryParams);
-  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
@@ -35,23 +34,22 @@ Future<Stream<Order>> getOrders() async {
   }
 }
 
-Future<Stream<Order>> getNearOrders(Address myAddress, Address areaAddress) async {
-  Uri uri = Helper.getUri('api/orders');
+Future<Stream<Order>> getNearOrders(Address myAddress, Address areaAddress, bool delivered) async {
+
+  print(areaAddress.toMap());
+
+  Uri uri = Helper.getUri2('api/ordersMobile');
   Map<String, dynamic> _queryParams = {};
   User _user = userRepo.currentUser.value;
-
-  _queryParams['api_token'] = _user.apiToken;
-  _queryParams['limit'] = '6';
-  _queryParams['with'] = 'driver;productOrders;productOrders.product;productOrders.options;orderStatus;deliveryAddress;payment';
-  _queryParams['search'] = 'driver.id:${_user.id};delivery_address_id:null';
-  _queryParams['searchFields'] = 'driver.id:=;delivery_address_id:<>';
-  _queryParams['searchJoin'] = 'and';
-  _queryParams['orderBy'] = 'id';
-  _queryParams['sortedBy'] = 'desc';
+  print(delivered);
+  _queryParams['token'] = _user.apiToken;
+  _queryParams['user_id'] = _user.id;
+  _queryParams['filter'] = 'delivery';
+  if(delivered == true){
+    _queryParams['delivered'] = 'yes';
+  }
   uri = uri.replace(queryParameters: _queryParams);
-
   print(uri);
-
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
@@ -62,7 +60,40 @@ Future<Stream<Order>> getNearOrders(Address myAddress, Address areaAddress) asyn
     print(CustomTrace(StackTrace.current, message: uri.toString()).toString());
     return new Stream.value(new Order.fromJSON({}));
   }
+
 }
+
+// Future<Stream<Order>> getNearOrders(Address myAddress, Address areaAddress) async {
+
+//   print(myAddress.toMap());
+
+//   print(areaAddress.toMap());
+
+//   Uri uri = Helper.getUri('api/orders');
+//   Map<String, dynamic> _queryParams = {};
+//   User _user = userRepo.currentUser.value;
+
+//   _queryParams['api_token'] = _user.apiToken;
+//   _queryParams['limit'] = '6';
+//   _queryParams['with'] = 'driver;productOrders;productOrders.product;productOrders.options;orderStatus;deliveryAddress;payment';
+//   _queryParams['search'] = 'driver.id:${_user.id};delivery_address_id:null';
+//   _queryParams['searchFields'] = 'driver.id:=;delivery_address_id:<>';
+//   _queryParams['searchJoin'] = 'and';
+//   _queryParams['orderBy'] = 'id';
+//   _queryParams['sortedBy'] = 'desc';
+//   uri = uri.replace(queryParameters: _queryParams);
+  
+//   try {
+//     final client = new http.Client();
+//     final streamedRest = await client.send(http.Request('get', uri));
+//     return streamedRest.stream.transform(utf8.decoder).transform(json.decoder).map((data) => Helper.getData(data)).expand((data) => (data as List)).map((data) {
+//       return Order.fromJSON(data);
+//     });
+//   } catch (e) {
+//     print(CustomTrace(StackTrace.current, message: uri.toString()).toString());
+//     return new Stream.value(new Order.fromJSON({}));
+//   }
+// }
 
 Future<Stream<Order>> getOrdersHistory() async {
   Uri uri = Helper.getUri2('api/ordersMobile');

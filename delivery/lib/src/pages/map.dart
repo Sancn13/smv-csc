@@ -91,7 +91,7 @@ class _MapWidgetState extends StateMVC<MapWidget> {
                     _con.cameraPosition = cameraPosition;
                   },
                   onCameraIdle: () {
-                    _con.getOrdersOfArea();
+                    _con.getOrdersOfArea(_con.currentOrder.deliveryStatus);
                   },
                   polylines: _con.polylines,
                 ),

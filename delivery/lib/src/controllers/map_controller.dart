@@ -26,9 +26,9 @@ class MapController extends ControllerMVC {
   double total = 0.0;
   Completer<GoogleMapController> mapController = Completer();
 
-  void listenForNearOrders(Address myAddress, Address areaAddress) async {
+  void listenForNearOrders(Address myAddress, Address areaAddress,bool delivered) async {
     print('listenForOrders');
-    final Stream<Order> stream = await getNearOrders(myAddress, areaAddress);
+    final Stream<Order> stream = await getNearOrders(myAddress, areaAddress, delivered);
     stream.listen(
         (Order _order) {
           setState(() {
@@ -114,14 +114,19 @@ class MapController extends ControllerMVC {
     });
   }
 
-  void getOrdersOfArea() async {
+  void getOrdersOfArea(String orderStatus) async {
+    print(orderStatus);
     setState(() {
       orders = <Order>[];
+      bool delivered = false;
+      if(orderStatus == 'Shipped'){
+        delivered = true;
+      }
       Address areaAddress = Address.fromJSON({"latitude": cameraPosition.target.latitude, "longitude": cameraPosition.target.longitude});
       if (cameraPosition != null) {
-        listenForNearOrders(currentAddress, areaAddress);
+        listenForNearOrders(currentAddress, areaAddress,delivered);
       } else {
-        listenForNearOrders(currentAddress, currentAddress);
+        listenForNearOrders(currentAddress, currentAddress,delivered);
       }
     });
   }
@@ -164,10 +169,10 @@ class MapController extends ControllerMVC {
     setState(() {});
   }
 
-  Future refreshMap() async {
-    setState(() {
-      orders = <Order>[];
-    });
-    listenForNearOrders(currentAddress, currentAddress);
-  }
+  // Future refreshMap() async {
+  //   setState(() {
+  //     orders = <Order>[];
+  //   });
+  //   listenForNearOrders(currentAddress, currentAddress,);
+  // }
 }

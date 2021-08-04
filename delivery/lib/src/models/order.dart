@@ -40,7 +40,6 @@ class Order {
       deliveryAddress = jsonMap['delivery_address'] != null ? Address.fromJSON(jsonMap['delivery_address']) : new Address();
       deliveryStatus = jsonMap['delivery_status'];
       deliveryStatusId = jsonMap['delivery_status_id'];
-      print(deliveryStatus);
       productOrders = jsonMap['product_orders'] != null ? List.from(jsonMap['product_orders']).map((element) => ProductOrder.fromJSON(element)).toList() : [];
     } catch (e) {
       id = '';
