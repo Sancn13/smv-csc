@@ -14,7 +14,7 @@ import '../repository/user_repository.dart' as userRepo;
 
 Future<Stream<Order>> getOrders() async {
 
-  Uri uri = Helper.getUri2('api/ordersMobile');
+  Uri uri = Helper.getUri('api/ordersMobile');
   Map<String, dynamic> _queryParams = {};
   User _user = userRepo.currentUser.value;
 
@@ -38,7 +38,7 @@ Future<Stream<Order>> getNearOrders(Address myAddress, Address areaAddress, bool
 
   print(areaAddress.toMap());
 
-  Uri uri = Helper.getUri2('api/ordersMobile');
+  Uri uri = Helper.getUri('api/ordersMobile');
   Map<String, dynamic> _queryParams = {};
   User _user = userRepo.currentUser.value;
   print(delivered);
@@ -96,7 +96,7 @@ Future<Stream<Order>> getNearOrders(Address myAddress, Address areaAddress, bool
 // }
 
 Future<Stream<Order>> getOrdersHistory() async {
-  Uri uri = Helper.getUri2('api/ordersMobile');
+  Uri uri = Helper.getUri('api/ordersMobile');
   Map<String, dynamic> _queryParams = {};
   User _user = userRepo.currentUser.value;
 
@@ -119,7 +119,7 @@ Future<Stream<Order>> getOrdersHistory() async {
 }
 
 Future<Stream<Order>> getOrder(orderId) async {
-  Uri uri = Helper.getUri2('api/ordersMobile');
+  Uri uri = Helper.getUri('api/ordersMobile');
   Map<String, dynamic> _queryParams = {};
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {
@@ -147,7 +147,7 @@ Future<Stream<Order>> getOrder(orderId) async {
 
 Future<Stream<Order>> getRecentOrders() async {
 
-  Uri uri = Helper.getUri2('api/ordersMobile');
+  Uri uri = Helper.getUri('api/ordersMobile');
   Map<String, dynamic> _queryParams = {};
   User _user = userRepo.currentUser.value;
 

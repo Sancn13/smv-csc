@@ -292,19 +292,6 @@ class Helper {
     return uri;
   }
 
-  static Uri getUri2(String path) {
-    String _path = Uri.parse('http://192.168.56.1/cscmultishop/').path;
-    if (!_path.endsWith('/')) {
-      _path += '/';
-    }
-    Uri uri = Uri(
-        scheme: Uri.parse('http://192.168.56.1/cscmultishop/').scheme,
-        host: Uri.parse('http://192.168.56.1/cscmultishop/').host,
-        port: Uri.parse('http://192.168.56.1/cscmultishop/').port,
-        path: _path + path);
-    return uri;
-  }
-
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null || now.difference(currentBackPressTime) > Duration(seconds: 2)) {
