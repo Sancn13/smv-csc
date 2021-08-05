@@ -5,7 +5,6 @@ import '../../generated/l10n.dart';
 import '../controllers/market_controller.dart';
 import '../elements/CardWidget.dart';
 import '../elements/EmptyMarketsWidget.dart';
-import '../elements/ShoppingCartButtonWidget.dart';
 import '../models/route_argument.dart';
 
 class MarketsWidget extends StatefulWidget {
@@ -47,9 +46,6 @@ class _MarketsWidgetState extends StateMVC<MarketsWidget> {
           S.of(context).myMarkets,
           style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
         ),
-        actions: <Widget>[
-          new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
-        ],
       ),
       body: RefreshIndicator(
         onRefresh: _con.refreshMarkets,

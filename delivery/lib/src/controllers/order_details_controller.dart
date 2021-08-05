@@ -41,6 +41,8 @@ class OrderDetailsController extends ControllerMVC {
       setState(() {
         this.order.orderStatus.id = '5';
         this.order.orderStatus.status = 'delivered';
+        this.order.deliveryStatusId = '10';
+        this.order.deliveryStatus = 'Shipped';
       });
       ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
         content: Text(S.of(state.context).theOrderDeliveredSuccessfullyToClient),

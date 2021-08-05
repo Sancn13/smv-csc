@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
-import '../models/gallery.dart';
 import '../models/market.dart';
 import '../models/product.dart';
 import '../models/review.dart';
-import '../repository/gallery_repository.dart';
 import '../repository/market_repository.dart';
 import '../repository/product_repository.dart';
 
 class MarketController extends ControllerMVC {
   Market market;
-  List<Gallery> galleries = <Gallery>[];
   List<Market> markets = <Market>[];
   List<Product> products = <Product>[];
   List<Product> trendingProducts = <Product>[];
@@ -59,13 +56,6 @@ class MarketController extends ControllerMVC {
     });
   }
 
-  void listenForGalleries(String idMarket) async {
-    final Stream<Gallery> stream = await getGalleries(idMarket);
-    stream.listen((Gallery _gallery) {
-      setState(() => galleries.add(_gallery));
-    }, onError: (a) {}, onDone: () {});
-  }
-
   void listenForMarketReviews({String id, String message}) async {
     final Stream<Review> stream = await getMarketReviews(id);
     stream.listen((Review _review) {
@@ -103,12 +93,10 @@ class MarketController extends ControllerMVC {
   Future<void> refreshMarket() async {
     var _id = market.id;
     market = new Market();
-    galleries.clear();
     reviews.clear();
     featuredProducts.clear();
     listenForMarket(id: _id, message: S.of(state.context).market_refreshed_successfuly);
     listenForMarketReviews(id: _id);
-    listenForGalleries(_id);
     listenForFeaturedProducts(_id);
   }
 

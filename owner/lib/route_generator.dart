@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'src/models/route_argument.dart';
 import 'src/pages/chat.dart';
 import 'src/pages/details.dart';
-import 'src/pages/help.dart';
 import 'src/pages/languages.dart';
 import 'src/pages/login.dart';
-import 'src/pages/notifications.dart';
 import 'src/pages/order.dart';
 import 'src/pages/order_edit.dart';
 import 'src/pages/pages.dart';
@@ -32,12 +30,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => OrderWidget(routeArgument: args as RouteArgument));
       case '/OrderEdit':
         return MaterialPageRoute(builder: (_) => OrderEditWidget(routeArgument: args as RouteArgument));
-      case '/Notifications':
-        return MaterialPageRoute(builder: (_) => NotificationsWidget());
       case '/Languages':
         return MaterialPageRoute(builder: (_) => LanguagesWidget());
-      case '/Help':
-        return MaterialPageRoute(builder: (_) => HelpWidget());
       case '/Settings':
         return MaterialPageRoute(builder: (_) => SettingsWidget());
       default:

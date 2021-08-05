@@ -6,7 +6,6 @@ import '../../generated/l10n.dart';
 import '../controllers/order_controller.dart';
 import '../elements/EmptyOrdersWidget.dart';
 import '../elements/OrderItemWidget.dart';
-import '../elements/ShoppingCartButtonWidget.dart';
 import '../elements/StatisticsCarouselWidget.dart';
 import '../repository/settings_repository.dart' as settingsRepo;
 
@@ -57,9 +56,6 @@ class _OrdersWidgetState extends StateMVC<OrdersWidget> {
             );
           },
         ),
-        actions: <Widget>[
-          new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
-        ],
       ),
       body: RefreshIndicator(
         onRefresh: _con.refreshOrders,

@@ -6,7 +6,6 @@ import '../../generated/l10n.dart';
 import '../models/chat.dart';
 import '../models/conversation.dart';
 import '../repository/chat_repository.dart';
-import '../repository/notification_repository.dart';
 import '../repository/user_repository.dart';
 
 class ChatController extends ControllerMVC {
@@ -66,9 +65,7 @@ class ChatController extends ControllerMVC {
     _conversation.readByUsers = [currentUser.value.id];
     _chatRepository.addMessage(_conversation, _chat).then((value) {
       _conversation.users.forEach((_user) {
-        if (_user.id != currentUser.value.id) {
-          sendNotification(text, S.of(state.context).newMessageFrom + " " + currentUser.value.name, _user);
-        }
+        print('!!!');
       });
     });
   }

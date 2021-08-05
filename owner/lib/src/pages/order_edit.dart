@@ -8,7 +8,6 @@ import '../../generated/l10n.dart';
 import '../controllers/order_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
 import '../elements/DrawerWidget.dart';
-import '../elements/ShoppingCartButtonWidget.dart';
 import '../helpers/helper.dart';
 import '../models/route_argument.dart';
 
@@ -99,9 +98,6 @@ class _OrderEditWidgetState extends StateMVC<OrderEditWidget> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: <Widget>[
-          new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
-        ],
       ),
       body: _con.order == null
           ? CircularLoadingWidget(height: 400)

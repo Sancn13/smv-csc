@@ -5,7 +5,6 @@ import '../../generated/l10n.dart';
 import '../controllers/chat_controller.dart';
 import '../elements/EmptyMessagesWidget.dart';
 import '../elements/MessageItemWidget.dart';
-import '../elements/ShoppingCartButtonWidget.dart';
 import '../models/conversation.dart';
 
 class MessagesWidget extends StatefulWidget {
@@ -80,9 +79,6 @@ class _MessagesWidgetState extends StateMVC<MessagesWidget> {
           maxLines: 1,
           style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
         ),
-        actions: <Widget>[
-          new ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
-        ],
       ),
       body: ListView(
         primary: false,

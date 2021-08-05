@@ -5,7 +5,6 @@ import '../../generated/l10n.dart';
 import '../controllers/profile_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
 import '../elements/ProfileAvatarWidget.dart';
-import '../elements/ShoppingCartButtonWidget.dart';
 import '../elements/StatisticsCarouselWidget.dart';
 
 class ProfileWidget extends StatefulWidget {
@@ -46,9 +45,6 @@ class _ProfileWidgetState extends StateMVC<ProfileWidget> {
           S.of(context).profile,
           style: Theme.of(context).textTheme.headline6.merge(TextStyle(letterSpacing: 1.3, color: Theme.of(context).primaryColor)),
         ),
-        actions: <Widget>[
-          new ShoppingCartButtonWidget(iconColor: Theme.of(context).primaryColor, labelColor: Theme.of(context).hintColor),
-        ],
       ),
       key: _con.scaffoldKey,
       body: _con.user.apiToken == null

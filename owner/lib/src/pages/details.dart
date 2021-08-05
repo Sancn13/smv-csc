@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../generated/l10n.dart';
 import '../controllers/market_controller.dart';
 import '../elements/CircularLoadingWidget.dart';
-import '../elements/GalleryCarouselWidget.dart';
 import '../elements/ProductItemWidget.dart';
 import '../elements/ReviewsListWidget.dart';
 import '../helpers/helper.dart';
@@ -34,7 +33,6 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
   @override
   void initState() {
     _con.listenForMarket(id: widget.routeArgument.id);
-    _con.listenForGalleries(widget.routeArgument.id);
     _con.listenForFeaturedProducts(widget.routeArgument.id);
     _con.listenForMarketReviews(id: widget.routeArgument.id);
     super.initState();
@@ -149,7 +147,6 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                             child: Helper.applyHtml(context, _con.market.description),
                           ),
-                          ImageThumbCarouselWidget(galleriesList: _con.galleries),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: ListTile(

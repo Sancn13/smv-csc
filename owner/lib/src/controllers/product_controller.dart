@@ -3,8 +3,6 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
 import '../models/cart.dart';
-import '../models/favorite.dart';
-import '../models/option.dart';
 import '../models/product.dart';
 import '../repository/product_repository.dart';
 
@@ -13,7 +11,6 @@ class ProductController extends ControllerMVC {
   double quantity = 1;
   double total = 0;
   Cart cart;
-  Favorite favorite;
   bool loadCart = false;
   GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -40,53 +37,9 @@ class ProductController extends ControllerMVC {
     });
   }
 
-  void listenForFavorite({String productId}) async {
-    final Stream<Favorite> stream = await isFavoriteProduct(productId);
-    stream.listen((Favorite _favorite) {
-      setState(() => favorite = _favorite);
-    }, onError: (a) {
-      print(a);
-    });
-  }
-
-  bool isSameMarkets(Product product) {
-    if (cart != null) {
-      return cart.product?.market?.id == product.market.id;
-    }
-    return true;
-  }
-
-  void addToFavorite(Product product) async {
-    var _favorite = new Favorite();
-    _favorite.product = product;
-    _favorite.options = product.options.where((Option _option) {
-      return _option.checked;
-    }).toList();
-    addFavorite(_favorite).then((value) {
-      setState(() {
-        this.favorite = value;
-      });
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).thisProductWasAddedToFavorite),
-      ));
-    });
-  }
-
-  void removeFromFavorite(Favorite _favorite) async {
-    removeFavorite(_favorite).then((value) {
-      setState(() {
-        this.favorite = new Favorite();
-      });
-      ScaffoldMessenger.of(scaffoldKey?.currentContext).showSnackBar(SnackBar(
-        content: Text(S.of(state.context).thisProductWasRemovedFromFavorites),
-      ));
-    });
-  }
-
   Future<void> refreshProduct() async {
     var _id = product.id;
     product = new Product();
-    listenForFavorite(productId: _id);
     listenForProduct(productId: _id, message: S.of(state.context).productRefreshedSuccessfully);
   }
 
