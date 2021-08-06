@@ -1,4 +1,4 @@
 {
-  "base_url": "https://markets.smartersvision.com/",
-  "api_base_url": "https://markets.smartersvision.com/api/manager/"
+  "base_url": "http://192.168.56.1/cscmultishop/",
+  "api_base_url": "http://192.168.56.1/cscmultishop/api/"
 }

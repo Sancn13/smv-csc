@@ -33,7 +33,6 @@ class _DetailsWidgetState extends StateMVC<DetailsWidget> {
   @override
   void initState() {
     _con.listenForMarket(id: widget.routeArgument.id);
-    _con.listenForFeaturedProducts(widget.routeArgument.id);
     _con.listenForMarketReviews(id: widget.routeArgument.id);
     super.initState();
   }

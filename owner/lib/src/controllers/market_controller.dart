@@ -72,24 +72,6 @@ class MarketController extends ControllerMVC {
     }, onDone: () {});
   }
 
-  void listenForTrendingProducts(String idMarket) async {
-    final Stream<Product> stream = await getTrendingProductsOfMarket(idMarket);
-    stream.listen((Product _product) {
-      setState(() => trendingProducts.add(_product));
-    }, onError: (a) {
-      print(a);
-    }, onDone: () {});
-  }
-
-  void listenForFeaturedProducts(String idMarket) async {
-    final Stream<Product> stream = await getFeaturedProductsOfMarket(idMarket);
-    stream.listen((Product _product) {
-      setState(() => featuredProducts.add(_product));
-    }, onError: (a) {
-      print(a);
-    }, onDone: () {});
-  }
-
   Future<void> refreshMarket() async {
     var _id = market.id;
     market = new Market();
@@ -97,7 +79,6 @@ class MarketController extends ControllerMVC {
     featuredProducts.clear();
     listenForMarket(id: _id, message: S.of(state.context).market_refreshed_successfuly);
     listenForMarketReviews(id: _id);
-    listenForFeaturedProducts(_id);
   }
 
   Future<void> refreshMarkets() async {

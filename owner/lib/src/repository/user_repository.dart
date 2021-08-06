@@ -8,35 +8,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/custom_trace.dart';
 import '../helpers/helper.dart';
-import '../models/address.dart';
 import '../models/credit_card.dart';
 import '../models/user.dart';
 import '../repository/user_repository.dart' as userRepo;
 
 ValueNotifier<User> currentUser = new ValueNotifier(User());
 
-String urlCScart = '192.168.1.56/cscmultishop';
-
-// Future<User> login(User user) async {
-//   final String url = '${GlobalConfiguration().getValue('api_base_url')}login';
-//   final client = new http.Client();
-//   final response = await client.post(
-//     url,
-//     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-//     body: json.encode(user.toMap()),
-//   );
-//   if (response.statusCode == 200) {
-//     setCurrentUser(response.body);
-//     currentUser.value = User.fromJSON(json.decode(response.body)['data']);
-//   } else {
-//     print(CustomTrace(StackTrace.current, message: response.body).toString());
-//     throw new Exception(response.body);
-//   }
-//   return currentUser.value;
-// }
-
 Future<User> login(User user) async {
-  final String csc_url = 'http://192.168.56.1/cscmultishop/api/';
+  final String csc_url = '${GlobalConfiguration().getValue('api_base_url')}';
   final client = new http.Client();
   final resAuth = await client.post(
     csc_url + 'AuthTokensApiMobile',
@@ -64,40 +43,6 @@ Future<User> login(User user) async {
     currentUser.value = null;
   }
   return currentUser.value;
-}
-
-Future<User> register(User user) async {
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}register';
-  final client = new http.Client();
-  final response = await client.post(
-    url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(user.toMap()),
-  );
-  if (response.statusCode == 200) {
-    setCurrentUser(response.body);
-    currentUser.value = User.fromJSON(json.decode(response.body)['data']);
-  } else {
-    print(CustomTrace(StackTrace.current, message: response.body).toString());
-    throw new Exception(response.body);
-  }
-  return currentUser.value;
-}
-
-Future<bool> resetPassword(User user) async {
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}send_reset_link_email';
-  final client = new http.Client();
-  final response = await client.post(
-    url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(user.toMap()),
-  );
-  if (response.statusCode == 200) {
-    return true;
-  } else {
-    print(CustomTrace(StackTrace.current, message: response.body).toString());
-    throw new Exception(response.body);
-  }
 }
 
 Future<void> logout() async {
@@ -143,22 +88,8 @@ Future<CreditCard> getCreditCard() async {
   return _creditCard;
 }
 
-// Future<User> update(User user) async {
-//   final String _apiToken = 'api_token=${currentUser.value.apiToken}';
-//   final String url = '${GlobalConfiguration().getValue('api_base_url')}users/${currentUser.value.id}?$_apiToken';
-//   final client = new http.Client();
-//   final response = await client.post(
-//     url,
-//     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-//     body: json.encode(user.toMap()),
-//   );
-//   setCurrentUser(response.body);
-//   currentUser.value = User.fromJSON(json.decode(response.body)['data']);
-//   return currentUser.value;
-// }
-
 Future<User> update(User user) async {
-  final String csc_url = 'http://192.168.56.1/cscmultiShop/api/';
+  final String csc_url = '${GlobalConfiguration().getValue('api_base_url')}';
   final client = new http.Client();
   final response = await client.put(
     csc_url + "usersMobile/" + user.id,
@@ -196,81 +127,8 @@ Future<User> update(User user) async {
   return currentUser.value;
 }
 
-Future<Stream<Address>> getAddresses() async {
-  User _user = currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}&';
-  final String url =
-      '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses?$_apiToken&search=user_id:${_user.id}&searchFields=user_id:=&orderBy=is_default&sortedBy=desc';
-  try {
-    final client = new http.Client();
-    final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
-
-    return streamedRest.stream.transform(utf8.decoder).transform(json.decoder).map((data) => Helper.getData(data)).expand((data) => (data as List)).map((data) {
-      return Address.fromJSON(data);
-    });
-  } catch (e) {
-    print(CustomTrace(StackTrace.current, message: url));
-    return new Stream.value(new Address.fromJSON({}));
-  }
-}
-
-Future<Address> addAddress(Address address) async {
-  User _user = userRepo.currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}';
-  address.userId = _user.id;
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses?$_apiToken';
-  final client = new http.Client();
-  try {
-    final response = await client.post(
-      url,
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-      body: json.encode(address.toMap()),
-    );
-    return Address.fromJSON(json.decode(response.body)['data']);
-  } catch (e) {
-    print(CustomTrace(StackTrace.current, message: url));
-    return new Address.fromJSON({});
-  }
-}
-
-Future<Address> updateAddress(Address address) async {
-  User _user = userRepo.currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}';
-  address.userId = _user.id;
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses/${address.id}?$_apiToken';
-  final client = new http.Client();
-  try {
-    final response = await client.put(
-      url,
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-      body: json.encode(address.toMap()),
-    );
-    return Address.fromJSON(json.decode(response.body)['data']);
-  } catch (e) {
-    print(CustomTrace(StackTrace.current, message: url));
-    return new Address.fromJSON({});
-  }
-}
-
-Future<Address> removeDeliveryAddress(Address address) async {
-  User _user = userRepo.currentUser.value;
-  final String _apiToken = 'api_token=${_user.apiToken}';
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}delivery_addresses/${address.id}?$_apiToken';
-  final client = new http.Client();
-  try {
-    final response = await client.delete(
-      url,
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    );
-    return Address.fromJSON(json.decode(response.body)['data']);
-  } catch (e) {
-    print(CustomTrace(StackTrace.current, message: url));
-    return new Address.fromJSON({});
-  }
-}
-
 Future<Stream<User>> getDriversOfMarket(String marketId) async {
-  Uri uri = Helper.getUri2('api/usersMobile');
+  Uri uri = Helper.getUri('api/usersMobile');
   Map<String, dynamic> _queryParams = {};
   User _user = userRepo.currentUser.value;
   _queryParams['app'] = 'owner';

@@ -4,7 +4,6 @@ import '../models/category.dart';
 import '../models/market.dart';
 import '../models/product.dart';
 import '../models/review.dart';
-import '../repository/category_repository.dart';
 import '../repository/market_repository.dart';
 
 class HomeController extends ControllerMVC {
@@ -14,16 +13,9 @@ class HomeController extends ControllerMVC {
   List<Product> trendingProducts = <Product>[];
 
   HomeController() {
-    listenForCategories();
     listenForRecentReviews();
   }
 
-  void listenForCategories() async {
-    final Stream<Category> stream = await getCategories();
-    stream.listen((Category _category) {
-      setState(() => categories.add(_category));
-    }, onError: (a) {}, onDone: () {});
-  }
 
   void listenForRecentReviews() async {
     final Stream<Review> stream = await getRecentReviews();
@@ -37,7 +29,6 @@ class HomeController extends ControllerMVC {
     topMarkets = <Market>[];
     recentReviews = <Review>[];
     trendingProducts = <Product>[];
-    listenForCategories();
     listenForRecentReviews();
   }
 }

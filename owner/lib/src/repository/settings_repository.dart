@@ -20,7 +20,7 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<Setting> initSettings() async {
   Setting _setting;
-  final String url = 'http://192.168.56.1/cscmultishop/api/settingsMobile?app=owner';
+  final String url = '${GlobalConfiguration().getValue('api_base_url')}settingsMobile?app=owner';
   print(url);
   try {
     final response = await http.get(url, headers: {HttpHeaders.contentTypeHeader: 'application/json'});
