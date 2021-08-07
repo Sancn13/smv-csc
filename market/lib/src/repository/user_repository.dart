@@ -26,7 +26,6 @@ Future<userModel.User> login(userModel.User user) async {
   );
   var resAuthJson = json.decode(resAuth.body);
   if(resAuthJson["token"] != null){
-      print(resAuthJson);
       final response = await client.get(
         csc_url + 'usersMobile?app=market&user_id=' + resAuthJson["user_id"] + '&token=' + resAuthJson["token"] + '&search_type=user_id',
       );
@@ -36,7 +35,6 @@ Future<userModel.User> login(userModel.User user) async {
         currentUser.value.password = user.password;
         var jsonUser = json.decode(response.body);
         jsonUser['password'] = user.password;
-        print(json.encode(jsonUser));
         setCurrentUser(jsonUser);
       } else {
         throw new Exception(response.body);

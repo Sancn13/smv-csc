@@ -25,7 +25,6 @@ final navigatorKey = GlobalKey<NavigatorState>();
 Future<Setting> initSettings() async {
   Setting _setting;
   final String url = '${GlobalConfiguration().getValue('api_base_url')}settingsMobile?app=market';
-  print(url);
   try {
     final response = await http.get(url, headers: {HttpHeaders.contentTypeHeader: 'application/json'});
     if (response.statusCode == 200 && response.headers.containsValue('application/json')) {

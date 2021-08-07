@@ -19,15 +19,9 @@ Future<Stream<Market>> getNearMarkets(Address myLocation, Address areaLocation) 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Filter filter = Filter.fromJSON(json.decode(prefs.getString('filter') ?? '{}'));
   _queryParams['company_id'] = '0';
-  // _queryParams['limit'] = '6';
-  // if (!myLocation.isUnknown() && !areaLocation.isUnknown()) {
-  //   _queryParams['myLon'] = myLocation.longitude.toString();
-  //   _queryParams['myLat'] = myLocation.latitude.toString();
-  //   _queryParams['areaLon'] = areaLocation.longitude.toString();
-  //   _queryParams['areaLat'] = areaLocation.latitude.toString();
-  // }
   _queryParams.addAll(filter.toQuery());
   uri = uri.replace(queryParameters: _queryParams);
+  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
@@ -54,7 +48,6 @@ Future<Stream<Market>> getPopularMarkets(Address myLocation) async {
   _queryParams['report'] = 'market';
   _queryParams['days'] = '30';
   uri = uri.replace(queryParameters: _queryParams);
-  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
@@ -96,18 +89,9 @@ Future<Stream<Market>> searchMarkets(String search, Address address) async {
 Future<Stream<Market>> getMarket(String id, Address address) async {
   Uri uri = Helper.getUri('api/market');
   Map<String, dynamic> _queryParams = {};
-  print(address.isUnknown());
   _queryParams['company_id'] = id;
-  // if (!address.isUnknown()) {
-  //   _queryParams['myLon'] = address.longitude.toString();
-  //   _queryParams['myLat'] = address.latitude.toString();
-  //   _queryParams['areaLon'] = address.longitude.toString();
-  //   _queryParams['areaLat'] = address.latitude.toString();
-  // }
-  // else{
-  //   _queryParams['company_id'] = id;
-  // }
   uri = uri.replace(queryParameters: _queryParams);
+  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
@@ -121,7 +105,6 @@ Future<Stream<Market>> getMarket(String id, Address address) async {
 
 Future<Stream<Review>> getMarketReviews(String id) async {
   final String url = '${GlobalConfiguration().getValue('api_base_url')}discussionsMobile?company_id=1&&object_type=M&&items_per_page=6';
-  print(url);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -134,21 +117,6 @@ Future<Stream<Review>> getMarketReviews(String id) async {
     return new Stream.value(new Review.fromJSON({}));
   }
 }
-
-// Future<Stream<Review>> getMarketReviews(String id) async {
-//   final String url = '${GlobalConfiguration().getValue('api_base_url')}market_reviews?with=user&search=market_id:$id';
-//   try {
-//     final client = new http.Client();
-//     final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
-
-//     return streamedRest.stream.transform(utf8.decoder).transform(json.decoder).map((data) => Helper.getData(data)).expand((data) => (data as List)).map((data) {
-//       return Review.fromJSON(data);
-//     });
-//   } catch (e) {
-//     print(CustomTrace(StackTrace.current, message: url).toString());
-//     return new Stream.value(new Review.fromJSON({}));
-//   }
-// }
 
 Future<Stream<Review>> getRecentReviews() async {
   final String url = '${GlobalConfiguration().getValue('api_base_url')}DiscussionsMobile?sort_order=desc&&items_per_page=4';
@@ -164,26 +132,10 @@ Future<Stream<Review>> getRecentReviews() async {
   }
 }
 
-
-// Future<Stream<Review>> getRecentReviews() async {
-//   final String url = '${GlobalConfiguration().getValue('api_base_url')}market_reviews?orderBy=updated_at&sortedBy=desc&limit=3&with=user';
-//   try {
-//     final client = new http.Client();
-//     final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
-//     return streamedRest.stream.transform(utf8.decoder).transform(json.decoder).map((data) => Helper.getData(data)).expand((data) => (data as List)).map((data) {
-//       return Review.fromJSON(data);
-//     });
-//   } catch (e) {
-//     print(CustomTrace(StackTrace.current, message: url).toString());
-//     return new Stream.value(new Review.fromJSON({}));
-//   }
-// }
-
 Future<Review> addMarketReview(Review review, Market market) async {
   final String url = '${GlobalConfiguration().getValue('api_base_url')}DiscussionsMobile';
   final client = new http.Client();
   review.user = currentUser.value;
-  print(review.user.name);
   try {
     final response = await client.post(
       url,

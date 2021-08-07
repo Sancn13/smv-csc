@@ -56,6 +56,7 @@ class Helper {
   }
 
   static Future<Marker> getMarker(Map<String, dynamic> res) async {
+    print(res);
     final Uint8List markerIcon = await getBytesFromAsset('assets/img/marker.png', 120);
     final Marker marker = Marker(
         markerId: MarkerId(res['id']),
@@ -71,7 +72,8 @@ class Helper {
               print(CustomTrace(StackTrace.current, message: 'Info Window'));
             }),
         position: LatLng(double.parse(res['latitude']), double.parse(res['longitude'])));
-
+    print('clm');
+    print(marker.toJson());
     return marker;
   }
 

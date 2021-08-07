@@ -55,7 +55,6 @@ class Order {
       deliveryAddress = Address.fromJSON({});
       productOrders = [];
     }
-    print(active);
   }
 
   Map toMap() {

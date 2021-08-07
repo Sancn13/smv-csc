@@ -1,4 +1,4 @@
-import 'dart:math' show cos, sqrt, asin;
+import 'dart:math' show asin, cos, pow, sqrt;
 
 import 'package:markets/src/models/address.dart';
 import 'package:markets/src/repository/settings_repository.dart';
@@ -55,6 +55,7 @@ class Market {
       availableForDelivery = jsonMap['available_for_delivery'] ?? false;
       //distance = jsonMap['distance'] != null ? double.parse(jsonMap['distance'].toString()) : 0.0;
       users = jsonMap['users'] != null && (jsonMap['users'] as List).length > 0 ? List.from(jsonMap['users']).map((element) => User.fromJSON(element)).toSet().toList() : [];
+      distance = 0.0;
       if(latitude != null && longitude != null){
         latd = jsonMap['latitude'].toDouble();
         lngd = jsonMap['longitude'].toDouble();
@@ -85,12 +86,8 @@ class Market {
   }
 
   double _coordinateDistance(double lat1,double lon1,double lat2,double lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    //var _const = 12112.9716755733;
-    var _const = 12742;
-    var a = 0.5 - c((lat2 - lat1) * p) / 2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return _const * asin(sqrt(a));
+    double _distance = sqrt(pow(69.1 * (lat1 - currentAddress.latitude), 2) + pow(69.1 * (currentAddress.longitude - lngd) * cos(latd / 57.3), 2));
+    return _distance;
   }
 
   void calcalateDistance()async{

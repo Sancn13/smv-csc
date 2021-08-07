@@ -39,10 +39,7 @@ Future<Stream<Coupon>> verifyCoupon(String code,List<ProductInCart> listProduct 
   Map<String, dynamic> _queryParams = {};
   _queryParams['order_id'] = order_id.toString();
   _queryParams['coupon_code'] = code.toString();
-  // _queryParams['product_id'] = list_product_id.toString();
-  // _queryParams['number_product'] = listProduct.length.toString();
   uri = uri.replace(queryParameters: _queryParams);
-  print(uri);
   if (_user.apiToken == null) {
     return new Stream.value(null);
   }
@@ -52,7 +49,6 @@ Future<Stream<Coupon>> verifyCoupon(String code,List<ProductInCart> listProduct 
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
     return streamedRest.stream.transform(utf8.decoder).transform(json.decoder).map((data) => Helper.getData(data)).expand((data) => (data as List)).map((data) {
-      print('ok');
       return Coupon.fromJSON(data);
     });
   } catch (e) {

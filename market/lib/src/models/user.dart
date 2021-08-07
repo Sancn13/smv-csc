@@ -27,7 +27,6 @@ class User {
 
   User.fromJSON(Map<String, dynamic> jsonMap) {
     try {
-      print(jsonMap);
       id = jsonMap['id'].toString();
       firstname = jsonMap['firstname'] != null ? jsonMap['firstname'] : '';
       lastname = jsonMap['lastname'] != null ? jsonMap['lastname'] : '';

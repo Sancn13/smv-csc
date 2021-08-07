@@ -7,7 +7,7 @@ import '../helpers/helper.dart';
 import '../models/slide.dart';
 
 Future<Stream<Slide>> getSlides() async {
-  Uri uri = Helper.getUri2('api/slide');
+  Uri uri = Helper.getUri('api/slide');
   Map<String, dynamic> _queryParams = {
     'with': 'product;market',
     'search': 'enabled:1',
@@ -15,8 +15,6 @@ Future<Stream<Slide>> getSlides() async {
     'sortedBy': 'asc',
   };
   uri = uri.replace(queryParameters: _queryParams);
-
-  print(uri);
 
   try {
     final client = new http.Client();
