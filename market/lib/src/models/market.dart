@@ -30,6 +30,7 @@ class Market {
   Address currentAddress;
   double latd = 0.0;
   double lngd = 0.0;
+  double temp_distance = 0.0;
 
   Market();
 
@@ -43,7 +44,6 @@ class Market {
       adminCommission = jsonMap['admin_commission'] != null ? jsonMap['admin_commission'].toDouble() : 0.0;
       deliveryRange = jsonMap['delivery_range'] != null ? jsonMap['delivery_range'].toDouble() : 0.0;
       address = jsonMap['address'];
-      //address = '392 Giovanny PineGorczanybury, CO 13600-6178';
       description = jsonMap['description'];
       phone = jsonMap['phone'];
       mobile = jsonMap['mobile'];
@@ -53,7 +53,6 @@ class Market {
       longitude = jsonMap['longitude'].toString();
       closed = jsonMap['closed'] ?? false;
       availableForDelivery = jsonMap['available_for_delivery'] ?? false;
-      //distance = jsonMap['distance'] != null ? double.parse(jsonMap['distance'].toString()) : 0.0;
       users = jsonMap['users'] != null && (jsonMap['users'] as List).length > 0 ? List.from(jsonMap['users']).map((element) => User.fromJSON(element)).toSet().toList() : [];
       distance = 0.0;
       if(latitude != null && longitude != null){

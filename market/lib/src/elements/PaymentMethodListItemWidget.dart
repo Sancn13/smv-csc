@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:markets/src/models/payment.dart';
+import 'package:markets/src/models/route_argument.dart';
 
 import '../models/payment_method.dart';
+
+import 'package:flutter_braintree/flutter_braintree.dart';
+
+import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
 class PaymentMethodListItemWidget extends StatelessWidget {
   String heroTag;
   PaymentMethod paymentMethod;
+
+
 
   PaymentMethodListItemWidget({Key key, this.paymentMethod}) : super(key: key);
 
@@ -15,8 +23,25 @@ class PaymentMethodListItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor,
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
-      onTap: () {
-        Navigator.of(context).pushNamed(this.paymentMethod.route);
+      onTap: () async {
+        if(paymentMethod.name == 'Cash on delivery'){
+          Navigator.of(context).pushNamed(this.paymentMethod.route);
+        }
+        else{
+          var request = BraintreeDropInRequest(
+                tokenizationKey: 'sandbox_mfdvmsgn_b3wnsfy75d84r7k3',
+                collectDeviceData: true,
+                paypalRequest: BraintreePayPalRequest(
+                  amount: '10.00',
+                  //displayName: 'Raja Yogan', 
+                ),
+              );
+            BraintreeDropInResult result = await BraintreeDropIn.start(request);
+            if(result != null){
+              print(result.paymentMethodNonce.nonce);
+              Navigator.of(context).pushNamed(this.paymentMethod.route,arguments: RouteArgument(param: paymentMethod.route,id: result.paymentMethodNonce.nonce));
+            }
+          }
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),

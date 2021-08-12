@@ -10,6 +10,7 @@ import '../models/user.dart';
 import '../repository/user_repository.dart' as userRepo;
 
 Future<Stream<Cart>> getCart() async {
+  print('work');
   User _user = userRepo.currentUser.value;
   if (_user.apiToken == null) {
     return new Stream.value(null);
@@ -17,6 +18,7 @@ Future<Stream<Cart>> getCart() async {
   final String url = '${GlobalConfiguration().getValue('api_base_url')}cartsMobile?filter=cart&id=' + _user.id.toString();
   final client = new http.Client();
   final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
+  print(url);
   return streamedRest.stream
       .transform(utf8.decoder)
       .transform(json.decoder)

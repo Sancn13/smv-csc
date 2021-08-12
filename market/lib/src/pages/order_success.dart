@@ -28,6 +28,8 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
   void initState() {
     // route param contains the payment method
     _con.payment = new Payment(widget.routeArgument.param);
+    _con.payment.key = widget.routeArgument.id;
+    print(widget.routeArgument.id);
     _con.listenForCarts();
     super.initState();
   }

@@ -20,6 +20,7 @@ Future<Stream<Order>> getOrders() async {
   }
   //final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url = '${GlobalConfiguration().getValue('api_base_url')}ordersMobile?user_id=' + _user.id + '&token=' + _user.apiToken + '&filter=order';
+  print(url);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -82,8 +83,6 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
     return new Order();
   }
 
-    
-
     final client_address = new http.Client();
     String url_address = '${GlobalConfiguration().getValue('api_base_url')}AddressMobile?type=user&user_id=' + _user.id;
     final user_type_response = await client_address.get(url_address);
@@ -111,7 +110,7 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
     +'"s_phone": "${user_info['s_phone']}"'
     + '}';
 
-  var success = false;
+   var success = true;
 
   String shipping_id = '';
 
@@ -119,24 +118,38 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
   order.user = _user;
   order.payment = payment;
 
-  // print(order.productOrders[0].options.length);
+  var url_list_payment = Uri.parse('${GlobalConfiguration().getValue('api_base_url')}paymentsMobile');
+
+  var res_list_payment = await http.get(url_list_payment);
+
+  var method = "";
+
+  List list_payment =  jsonDecode(res_list_payment.body)["data"];
+
+  print(order.payment.method);
 
   if(order.payment.method == "Cash on Delivery"){
-    order.payment.id = '13'; 
+    method = "Cash on delivery";
   }
-  else if(order.payment.method == "visacard" || order.payment.method == "mastercard"){
-    order.payment.id = '1';
+  else if(order.payment.method == "Credit Card (Stripe Gateway)"){
+    method = "Credit card";
   }
   else if(order.payment.method == "paypal"){
-    order.payment.id = '12';
+    method = 'PayPal';
   }
   else{
     //Pay on Pickup
-    order.payment.id = '14';
+    method = 'Pay on pickup';
 
   }
 
-  if(order.payment.id == '14'){
+  for(int i =0; i<list_payment.length;i++){
+    if(method == list_payment[i]["payment"]){
+      order.payment.id = list_payment[i]["payment_id"];
+    }
+  }
+
+  if(method == 'Pay on pickup'){
     shipping_id = '6';
   }
   else{
@@ -147,6 +160,10 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
       shipping_id = '7';
     }
   }
+
+  print(order.payment.id);
+  print(shipping_id);
+  print(order.payment.key);
 
   final String url = '${GlobalConfiguration().getValue('api_base_url')}ordersMobile';
   final client = new http.Client();
@@ -174,7 +191,16 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: msg
   );
+  print(response.body);
+  var amount = jsonDecode(response.body)['success']['order_data']['total'];
   if(response.statusCode == 201){
+      var url = Uri.parse('http://192.168.56.1/cscmultitest/api/paymentsMobile');
+      var response = await http.post(url,body:{
+        "firstname":order.user.firstname,
+        "lastname":order.user.lastname,
+        "token":payment.key,
+        "amount": amount
+      });
       for(var i=0;i<order.productOrders.length;i++){
         final String url2 = '${GlobalConfiguration().getValue('api_base_url')}cartsMobile/'+ _user.id + '?product_id=' + order.productOrders[i].product.id;
         final client_2 = new http.Client();
@@ -184,8 +210,6 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
         }
       }
   }
-
-  success = true;
 
   return success;
 }

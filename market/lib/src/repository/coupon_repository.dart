@@ -26,10 +26,11 @@ Future<Stream<Coupon>> verifyCoupon(String code,List<ProductInCart> listProduct 
   str_product = str_product.substring(0,str_product.length -1);
   str_product = '{' + str_product +'}';
   list_product_id = list_product_id.substring(0,list_product_id.length -1);
-  var msg = '{"user_id":"' + _user.id +'","shipping_id":"1",'+ '"payment_id":' + 1.toString() + ',"coupon_codes":"' + code.toString() + '","products":' + str_product +'}';
+  var msg = '{"user_id":"' + _user.id +'","shipping_id":"1",'+ '"payment_id":' + 1.toString() + ',"coupon_codes":"' + code.toString() + '","products":' + str_product + ',"address_id":"","token":"' + _user.apiToken +'"}';
+  print(msg);
   final response = await client.post(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json','Authorization': _user.apiToken},
+    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: msg
   );
   var order_id = json.decode(response.body)['success']['order_id'];

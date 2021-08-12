@@ -1,4 +1,4 @@
 {
-  "base_url": "http://192.168.56.1/cscmultivendor/",
-  "api_base_url": "http://192.168.56.1/cscmultivendor/api/"
+  "base_url": "http://192.168.56.1/cscmultitest/",
+  "api_base_url": "http://192.168.56.1/cscmultitest/api/"
 }

@@ -52,12 +52,10 @@ class CartController extends ControllerMVC {
         product_temp.quantity = _cart.quantity;
         product_in_cart.add(product_temp);
       }
-      
       if (!carts.contains(_cart)) {
-        setState(() {
           coupon = _cart.product.applyCoupon(coupon);
           carts.add(_cart);
-        });
+          print(carts.length);
       }
     }, onError: (a) {
       print(a);
@@ -74,6 +72,7 @@ class CartController extends ControllerMVC {
       ));
       }
       onLoadingCartDone();
+      print('ccc');
     });
   }
 
