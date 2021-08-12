@@ -65,7 +65,6 @@ class _DeliveryAddressesWidgetState extends StateMVC<DeliveryAddressesWidget> {
                   'latitude': result.latLng.latitude,
                   'longitude': result.latLng.longitude,
                 }));
-                print("result = $result");
                 //setState(() => _pickedLocation = result);
               },
               backgroundColor: Theme.of(context).accentColor,

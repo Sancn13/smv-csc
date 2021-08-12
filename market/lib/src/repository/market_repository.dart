@@ -21,7 +21,6 @@ Future<Stream<Market>> getNearMarkets(Address myLocation, Address areaLocation) 
   _queryParams['company_id'] = '0';
   _queryParams.addAll(filter.toQuery());
   uri = uri.replace(queryParameters: _queryParams);
-  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
@@ -91,7 +90,6 @@ Future<Stream<Market>> getMarket(String id, Address address) async {
   Map<String, dynamic> _queryParams = {};
   _queryParams['company_id'] = id;
   uri = uri.replace(queryParameters: _queryParams);
-  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));

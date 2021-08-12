@@ -112,7 +112,6 @@ class CategoryController extends ControllerMVC {
       });
     } else {
       // the product doesnt exist in the cart add new one
-      print(_newCart.toMap());
       addCart(_newCart, reset).then((value) {
         setState(() {
           this.loadCart = false;

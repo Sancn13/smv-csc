@@ -63,7 +63,6 @@ class CheckoutController extends CartController {
         break;
       }
     }
-    print('delivery: ' + canDelivery.toString());
     orderRepo.addOrder(_order, this.payment,code_coupon, canDelivery).then((value) async {
       settingRepo.coupon = new Coupon.fromJSON({});
       return value;

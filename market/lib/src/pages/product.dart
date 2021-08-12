@@ -76,7 +76,6 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
   }
 
   void getOptions(){
-    print(list_options);
     for(int i =0;i<_con.product.options.length;i++){
       _con.product.options[i].checked = false;
       for(int j = 0;j<list_options.length;j++){
@@ -84,7 +83,6 @@ class _ProductWidgetState extends StateMVC<ProductWidget> {
           _con.product.options[i].checked = true;
         }
       }
-      print(_con.product.options[i].checked);
     }
 
   }

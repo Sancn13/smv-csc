@@ -120,9 +120,7 @@ class _HomeSliderWidgetState extends State<HomeSliderWidget> {
                                       MaterialButton(
                                         elevation: 0,
                                         onPressed: () {
-                                          print('asdas  ' + slide.market_id);
                                           if (slide.market_id != 'null') {
-                                            print(slide.market_id);
                                             Navigator.of(context).pushNamed('/Details', arguments: RouteArgument(id: '0', param: slide.market_id, heroTag: 'home_slide'));
                                           } else if (slide.product_id != 'null') {
                                             Navigator.of(context).pushNamed('/Product', arguments: RouteArgument(id: slide.product_id, heroTag: 'home_slide'));

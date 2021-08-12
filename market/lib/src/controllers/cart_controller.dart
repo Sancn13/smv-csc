@@ -55,7 +55,6 @@ class CartController extends ControllerMVC {
       if (!carts.contains(_cart)) {
           coupon = _cart.product.applyCoupon(coupon);
           carts.add(_cart);
-          print(carts.length);
       }
     }, onError: (a) {
       print(a);
@@ -72,7 +71,6 @@ class CartController extends ControllerMVC {
       ));
       }
       onLoadingCartDone();
-      print('ccc');
     });
   }
 

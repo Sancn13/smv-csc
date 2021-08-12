@@ -25,7 +25,6 @@ class MapController extends ControllerMVC {
   void listenForNearMarkets(Address myLocation, Address areaLocation) async {
     final Stream<Market> stream = await getNearMarkets(myLocation, areaLocation);
     stream.listen((Market _market) {
-      print(_market.toMap());
       setState(() {
         topMarkets.add(_market);
       });

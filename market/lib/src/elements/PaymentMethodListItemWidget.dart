@@ -32,14 +32,12 @@ class PaymentMethodListItemWidget extends StatelessWidget {
                 tokenizationKey: 'sandbox_mfdvmsgn_b3wnsfy75d84r7k3',
                 collectDeviceData: true,
                 paypalRequest: BraintreePayPalRequest(
-                  amount: '10.00',
-                  //displayName: 'Raja Yogan', 
                 ),
+                cardEnabled: true
               );
             BraintreeDropInResult result = await BraintreeDropIn.start(request);
             if(result != null){
-              print(result.paymentMethodNonce.nonce);
-              Navigator.of(context).pushNamed(this.paymentMethod.route,arguments: RouteArgument(param: paymentMethod.route,id: result.paymentMethodNonce.nonce));
+              Navigator.of(context).pushNamed(this.paymentMethod.route,arguments: RouteArgument(param: paymentMethod.name,id: result.paymentMethodNonce.nonce));
             }
           }
       },

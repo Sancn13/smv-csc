@@ -24,7 +24,6 @@ Future<Stream<Product>> getTrendingProducts(Address address) async {
   _queryParams['report'] = 'product';
   _queryParams.addAll(filter.toQuery());
   uri = uri.replace(queryParameters: _queryParams);
-  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
@@ -43,7 +42,6 @@ Future<Stream<Product>> getProduct(String productId) async {
   uri = uri.replace(queryParameters: {
     'product_id': productId
     });
-  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
@@ -145,7 +143,6 @@ Future<Favorite> addFavorite(Favorite favorite) async {
   favorite.userId = _user.id;
   final String url = '${GlobalConfiguration().getValue('api_base_url')}cartsMobile';
   favorite.toMap()['type'] = 'wish_list';
-  print(favorite.toMap());
   try {
     final client = new http.Client();
     final response = await client.post(
@@ -159,7 +156,6 @@ Future<Favorite> addFavorite(Favorite favorite) async {
         "type" : "wish_list",
       }),
     );
-    print(url);
     return Favorite.fromJSON(json.decode(response.body)['data']);
   } catch (e) {
     print(CustomTrace(StackTrace.current, message: url).toString());
@@ -179,7 +175,6 @@ Future<Favorite> removeFavorite(Favorite favorite, String product_id) async {
     final response = await client.delete(
       url,
     );
-    print(url);
     print(response.statusCode);
     return Favorite.fromJSON(json.decode(response.body)['data']);
   } catch (e) {
@@ -210,7 +205,6 @@ Future<Stream<Product>> getProductsOfMarket(String marketId, {List<String> categ
     }
   }
   uri = uri.replace(queryParameters: query);
-  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
@@ -240,7 +234,6 @@ Future<Stream<Product>> getTrendingProductsOfMarket(String marketId) async {
     'marketId': '$marketId',
   });
   // TODO Trending products only
-  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));
@@ -260,7 +253,6 @@ Future<Stream<Product>> getFeaturedProductsOfMarket(String marketId) async {
     'marketId': marketId,
     'order_by': "random",
   });
-  print(uri);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', uri));

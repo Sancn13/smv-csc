@@ -42,7 +42,6 @@ class HomeController extends ControllerMVC {
   Future<void> listenForCategories() async {
     final Stream<Category> stream = await getCategories();
     stream.listen((Category _category) {
-      print(_category);
       setState(() => categories.add(_category));
     }, onError: (a) {
       print(a);
@@ -59,7 +58,6 @@ class HomeController extends ControllerMVC {
   Future<void> listenForPopularMarkets() async {
     final Stream<Market> stream = await getPopularMarkets(deliveryAddress.value);
     stream.listen((Market _market) {
-      print(_market.toMap());
       setState(() => popularMarkets.add(_market));
 
     }, onError: (a) {print(a);}, onDone: () {});

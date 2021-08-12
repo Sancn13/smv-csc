@@ -20,7 +20,6 @@ Future<Stream<Order>> getOrders() async {
   }
   //final String _apiToken = 'api_token=${_user.apiToken}&';
   final String url = '${GlobalConfiguration().getValue('api_base_url')}ordersMobile?user_id=' + _user.id + '&token=' + _user.apiToken + '&filter=order';
-  print(url);
   try {
     final client = new http.Client();
     final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
@@ -126,15 +125,13 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
 
   List list_payment =  jsonDecode(res_list_payment.body)["data"];
 
-  print(order.payment.method);
-
   if(order.payment.method == "Cash on Delivery"){
     method = "Cash on delivery";
   }
   else if(order.payment.method == "Credit Card (Stripe Gateway)"){
     method = "Credit card";
   }
-  else if(order.payment.method == "paypal"){
+  else if(order.payment.method == "PayPal"){
     method = 'PayPal';
   }
   else{
@@ -161,9 +158,6 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
     }
   }
 
-  print(order.payment.id);
-  print(shipping_id);
-  print(order.payment.key);
 
   final String url = '${GlobalConfiguration().getValue('api_base_url')}ordersMobile';
   final client = new http.Client();
@@ -191,7 +185,6 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: msg
   );
-  print(response.body);
   var amount = jsonDecode(response.body)['success']['order_data']['total'];
   if(response.statusCode == 201){
       var url = Uri.parse('http://192.168.56.1/cscmultitest/api/paymentsMobile');

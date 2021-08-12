@@ -73,7 +73,6 @@ class ChatController extends ControllerMVC {
     _conversation.lastMessage = text;
     _conversation.lastMessageTime = _chat.time;
     _conversation.readByUsers = [currentUser.value.id];
-    print(_conversation.toMap());
     _chatRepository.addMessage(_conversation, _chat).then((value) {
       _conversation.users.forEach((_user) {
         if (_user.id != currentUser.value.id) {

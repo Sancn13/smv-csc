@@ -30,7 +30,6 @@ class MarketController extends ControllerMVC {
   }
 
   Future<dynamic> listenForMarket({String id, String message}) async {
-    print(id);
     final whenDone = new Completer();
     final Stream<Market> stream = await getMarket(id, deliveryAddress.value);
     stream.listen((Market _market) {
