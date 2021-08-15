@@ -24,6 +24,7 @@ class PaymentMethodListItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () async {
+        print(paymentMethod.name);
         if(paymentMethod.name == 'Cash on delivery'){
           Navigator.of(context).pushNamed(this.paymentMethod.route);
         }
@@ -37,7 +38,8 @@ class PaymentMethodListItemWidget extends StatelessWidget {
               );
             BraintreeDropInResult result = await BraintreeDropIn.start(request);
             if(result != null){
-              Navigator.of(context).pushNamed(this.paymentMethod.route,arguments: RouteArgument(param: paymentMethod.name,id: result.paymentMethodNonce.nonce));
+              print(result.paymentMethodNonce.typeLabel);
+              //Navigator.of(context).pushNamed(this.paymentMethod.route,arguments: RouteArgument(param: paymentMethod.name,heroTag:result.paymentMethodNonce.typeLabel,id: result.paymentMethodNonce.nonce));
             }
           }
       },

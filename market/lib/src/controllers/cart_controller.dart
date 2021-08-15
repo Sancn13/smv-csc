@@ -18,6 +18,12 @@ class CartController extends ControllerMVC {
   int cartCount = 0;
   double subTotal = 0.0;
   double total = 0.0;
+  bool done_checkout = false;
+  String route_payment = '';
+  String key_payment = '';
+  String name_payment = '';
+  bool checked_surcharge = false;
+  String test = '';
   List<ProductInCart> product_in_cart = [];
   GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -63,6 +69,7 @@ class CartController extends ControllerMVC {
       ));
     }, onDone: () {
       if (carts.isNotEmpty) {
+        print(total);
         calculateSubtotal();
       }
       if (message != null) {
@@ -238,4 +245,12 @@ class CartController extends ControllerMVC {
     }
     return Theme.of(state.context).focusColor.withOpacity(0.7);
   }
+
+  void calcalateTotalWithSurcharge(total_origin,surcharge_amount,surcharge_percent){
+    total = (1 + surcharge_percent/100) * total_origin + surcharge_amount;
+    checked_surcharge = true;
+  }
+
+  
+
 }

@@ -33,13 +33,14 @@ class CheckoutController extends CartController {
   @override
   void onLoadingCartDone() {
     if (payment != null) addOrder(carts);
+    print(total.toString() + 'asdsad');
     super.onLoadingCartDone();
   }
 
   void addOrder(List<Cart> carts) async {
     bool canDelivery = true;
     Order _order = new Order();
-    _order.productOrders = <ProductOrder>[];;
+    _order.productOrders = <ProductOrder>[];
     String code_coupon = "";
     code_coupon = settingRepo.coupon.code;
     _order.tax = carts[0].product.market.defaultTax;

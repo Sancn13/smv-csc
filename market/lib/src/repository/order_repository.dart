@@ -117,7 +117,7 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
   order.user = _user;
   order.payment = payment;
 
-  var url_list_payment = Uri.parse('${GlobalConfiguration().getValue('api_base_url')}paymentsMobile');
+  var url_list_payment = Uri.parse('${GlobalConfiguration().getValue('api_base_url')}paymentsMobile?mode=list');
 
   var res_list_payment = await http.get(url_list_payment);
 
@@ -125,14 +125,18 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
 
   List list_payment =  jsonDecode(res_list_payment.body)["data"];
 
+  print(order.payment.toMap());
+
   if(order.payment.method == "Cash on Delivery"){
     method = "Cash on delivery";
   }
-  else if(order.payment.method == "Credit Card (Stripe Gateway)"){
-    method = "Credit card";
-  }
-  else if(order.payment.method == "PayPal"){
-    method = 'PayPal';
+  else if(order.payment.method == "Braintree"){
+    if(order.payment.sub_method == "PayPal"){
+      method = "PayPal";
+    }
+    else{
+      method = "Credit card";
+    }
   }
   else{
     //Pay on Pickup
@@ -159,50 +163,53 @@ Future addOrder(Order order, Payment payment,String code_coupon,bool canDelivery
   }
 
 
-  final String url = '${GlobalConfiguration().getValue('api_base_url')}ordersMobile';
-  final client = new http.Client();
-  Map params = order.toMap();
-  params.addAll(_creditCard.toMap());
-  var str_product = "";
+  // final String url = '${GlobalConfiguration().getValue('api_base_url')}ordersMobile';
+  // final client = new http.Client();
+  // Map params = order.toMap();
+  // params.addAll(_creditCard.toMap());
+  // var str_product = "";
 
-  for(var i=0;i<order.productOrders.length;i++){
-    var str_options = "";
-    for(var j=0;j<order.productOrders[i].options.length;j++){
-      str_options = str_options + '"' + order.productOrders[i].options[j].optionGroupId + '"' + ':' + '"' + order.productOrders[i].options[j].id.split(":")[1] + '"';
-      if(order.productOrders[i].options.length - j >1){
-        str_options = str_options + ',';
-      }
-    }
-    str_product += '"'+ (i+1).toString() +'":{"product_id":"'+ order.productOrders[i].product.id +'","amount":"'+ order.productOrders[i].quantity.toString() 
-    + '","product_options":{' + str_options + '}},';
-  }
+  // for(var i=0;i<order.productOrders.length;i++){
+  //   var str_options = "";
+  //   for(var j=0;j<order.productOrders[i].options.length;j++){
+  //     str_options = str_options + '"' + order.productOrders[i].options[j].optionGroupId + '"' + ':' + '"' + order.productOrders[i].options[j].id.split(":")[1] + '"';
+  //     if(order.productOrders[i].options.length - j >1){
+  //       str_options = str_options + ',';
+  //     }
+  //   }
+  //   str_product += '"'+ (i+1).toString() +'":{"product_id":"'+ order.productOrders[i].product.id +'","amount":"'+ order.productOrders[i].quantity.toString() 
+  //   + '","product_options":{' + str_options + '}},';
+  // }
 
-  str_product = str_product.substring(0,str_product.length -1);
-  str_product = '{' + str_product +'}';
-  var msg = '{"user_id":"' + _user.id +'","shipping_id": "'+ shipping_id +'",'+ '"payment_id":' + order.payment.id + ',"coupon_codes":"' + code_coupon.toString() + '","products":' + str_product +',"address_id":'+ order.deliveryAddress.id +',"token":"' + _user.apiToken +'",' + user_data +'}';
-  final response = await client.post(
-    url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: msg
-  );
-  var amount = jsonDecode(response.body)['success']['order_data']['total'];
-  if(response.statusCode == 201){
-      var url = Uri.parse('http://192.168.56.1/cscmultitest/api/paymentsMobile');
-      var response = await http.post(url,body:{
-        "firstname":order.user.firstname,
-        "lastname":order.user.lastname,
-        "token":payment.key,
-        "amount": amount
-      });
-      for(var i=0;i<order.productOrders.length;i++){
-        final String url2 = '${GlobalConfiguration().getValue('api_base_url')}cartsMobile/'+ _user.id + '?product_id=' + order.productOrders[i].product.id;
-        final client_2 = new http.Client();
-        final deleted = await client_2.delete(url2);
-        if(deleted.statusCode == 201){
-          success = true;
-        }
-      }
-  }
+  // str_product = str_product.substring(0,str_product.length -1);
+  // str_product = '{' + str_product +'}';
+  // var msg = '{"user_id":"' + _user.id +'","shipping_id": "'+ shipping_id +'",'+ '"payment_id":' + order.payment.id + ',"coupon_codes":"' + code_coupon.toString() + '","products":' + str_product +',"address_id":'+ order.deliveryAddress.id +',"token":"' + _user.apiToken +'",' + user_data +'}';
+  // final response = await client.post(
+  //   url,
+  //   headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+  //   body: msg
+  // );
+  // var amount = jsonDecode(response.body)['success']['order_data']['total'];
+  // if(response.statusCode == 201){
+  //     if(payment.key != null){
+  //       var url = Uri.parse('${GlobalConfiguration().getValue('api_base_url')}paymentsMobile');
+  //         var response = await http.post(url,body:{
+  //         "firstname":order.user.firstname,
+  //         "lastname":order.user.lastname,
+  //         "token":payment.key,
+  //         "amount": amount
+  //       });
+  //     }
+      
+  //     for(var i=0;i<order.productOrders.length;i++){
+  //       final String url2 = '${GlobalConfiguration().getValue('api_base_url')}cartsMobile/'+ _user.id + '?product_id=' + order.productOrders[i].product.id;
+  //       final client_2 = new http.Client();
+  //       final deleted = await client_2.delete(url2);
+  //       if(deleted.statusCode == 201){
+  //         success = true;
+  //       }
+  //     }
+  // }
 
   return success;
 }

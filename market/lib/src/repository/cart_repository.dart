@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
+import 'package:markets/src/models/payment.dart';
 
 import '../helpers/helper.dart';
 import '../models/cart.dart';

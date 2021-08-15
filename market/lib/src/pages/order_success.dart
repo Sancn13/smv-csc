@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:global_configuration/global_configuration.dart';
+import 'package:http/http.dart' as http;
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
@@ -24,18 +28,42 @@ class _OrderSuccessWidgetState extends StateMVC<OrderSuccessWidget> {
     _con = controller;
   }
 
+  void getSubCharge(String method) async{
+
+    print(method);
+
+    var url_surcharge = Uri.parse('${GlobalConfiguration().getValue('api_base_url')}paymentsMobile?mode=method&method=' + method);
+
+    print(url_surcharge);
+
+    var res_surcharge = await http.get(url_surcharge);
+
+    if(res_surcharge.statusCode == 200){
+      var res = jsonDecode(res_surcharge.body)["data"];
+      _con.total = (1 + double.parse(res['percent'])/100)*_con.total + double.parse(res['amount']);
+      print(_con.total);
+    }
+    else{
+      print(res_surcharge.statusCode);
+    }
+  }
+
   @override
   void initState() {
     // route param contains the payment method
     _con.payment = new Payment(widget.routeArgument.param);
     _con.payment.key = widget.routeArgument.id;
-    print(widget.routeArgument.id);
+    _con.payment.sub_method = widget.routeArgument.heroTag;
+    print(widget.routeArgument.param);
     _con.listenForCarts();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    getSubCharge(widget.routeArgument.param);
+
     return Scaffold(
         key: _con.scaffoldKey,
         appBar: AppBar(

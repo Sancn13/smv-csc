@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:markets/src/models/route_argument.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/cart_controller.dart';
@@ -77,7 +78,14 @@ class CartBottomDetailsWidget extends StatelessWidget {
                         child: MaterialButton(
                           elevation: 0,
                           onPressed: () {
-                            _con.goCheckout(context);
+                            print(_con.done_checkout);
+                            if(_con.done_checkout == true){
+                              print(_con.name_payment);
+                              Navigator.of(context).pushNamed(_con.route_payment,arguments: RouteArgument(param:_con.name_payment));
+                            }
+                            else{
+                              _con.goCheckout(context);
+                            }
                           },
                           disabledColor: Theme.of(context).focusColor.withOpacity(0.5),
                           padding: EdgeInsets.symmetric(vertical: 14),
